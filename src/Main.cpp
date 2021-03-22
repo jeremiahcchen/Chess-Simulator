@@ -97,6 +97,9 @@ int main()
 				if (e.mouseButton.button == Mouse::Left)
 				{
 					isMove = false;
+					Vector2f p = f[n].getPosition() + Vector2f(size/2, size/2);
+					Vector2f newPos = Vector2f(size * int(p.x/size), size * int(p.y/size));
+					f[n].setPosition(newPos);
 				}
 			}
 		}
