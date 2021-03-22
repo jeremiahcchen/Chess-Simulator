@@ -1,4 +1,15 @@
-# sfml-vscode-boilerplate
+
+# Chess-Simulator
+
+In order to run SFML on vscode, I used [andrew-r-king/sfml-vscode-boilerplate](https://github.com/andrew-r-king/sfml-vscode-boilerplate) to help run the program.
+
+To get this sfml-vscode-boilerplate to work I followed this [tutorial](https://game-developers.org/sfml-easy-setup-with-vs-code-c-tutorial/)
+
+For the Chess-Simulator, I followed the guidelines from this [YouTube video](https://www.youtube.com/watch?v=_4EuZI8Q8cs)
+
+---
+
+## sfml-vscode-boilerplate
 
 A cross-platform [SFML](https://www.sfml-dev.org) 2.5.1 & C++17 build environment for [Visual Studio Code](https://code.visualstudio.com/)
 
@@ -183,19 +194,19 @@ The environment variables that can be added to each .mk file are outlined below.
 
 ## Environment Variables
 
-**CFLAGS**:  
+**CFLAGS**:
 Compiler flags to use.
 
-**MAX_PARALLEL_JOBS**:  
+**MAX_PARALLEL_JOBS**:
 Max number of parallel jobs to run, based on number of cpus cores available
 
-**CLEAN_OUTPUT**:  
+**CLEAN_OUTPUT**:
 If set to 'true', the build output will only show the path/filename of the source file being built as well as the linking step and a couple helpful messages. All other commands will be hidden (including assembly dumps)
 
-**DUMP_ASSEMBLY**:  
+**DUMP_ASSEMBLY**:
 If set to 'true', \*.o.asm files will generate within the bin/(Build)/asm folder. The bin folder is hidden from VS Code by default, but you can open the asm folder in a separate instance and browse the assembly that way if you'd like to, or customize it from settings.json.
 
-**PRECOMPILED_HEADER**:  
+**PRECOMPILED_HEADER**:
 Define a precompiled header file (no extension). If this variable is not defined in the env files, then the precompiled header will not be used. This file will be excluded from Rebuild/Build tasks, but if the bin/(build) directory is removed, it will be as well.
 
 If you're unfamiliar with how precompiled headers work, these speed up compile time by precompiling commonly used includes like standard libraries and the SFML includes. The PCH.hpp gets implicitly included in each cpp file, so you don't need to manually include it each time like with Visual Studio. When it actually compiles, it can be large, but it does not affect the size of the final binary (which would be the same size with or without the PCH).
@@ -204,7 +215,7 @@ If you're unfamiliar with how precompiled headers work, these speed up compile t
 PRECOMPILED_HEADER:=PCH
 ```
 
-**LIB_DIRS**:  
+**LIB_DIRS**:
 Add any additional lib directories (full path)
 
 ```makefile
@@ -213,7 +224,7 @@ LIB_DIRS= \
   C:/myLibraries/lib
 ```
 
-**INCLUDE_DIRS**:  
+**INCLUDE_DIRS**:
 Add any additional include directories (full path)
 
 ```makefile
@@ -222,7 +233,7 @@ INCLUDE_DIRS= \
   C:/myLibraries/include
 ```
 
-**LINK_LIBRARIES**:  
+**LINK_LIBRARIES**:
 Add any additional link libraries
 
 ```makefile
@@ -232,7 +243,7 @@ LINK_LIBRARIES= \
   something
 ```
 
-**BUILD_FLAGS**:  
+**BUILD_FLAGS**:
 Additional compiler flags for the particular build (including prefix)
 
 ```makefile
@@ -240,7 +251,7 @@ BUILD_FLAGS= \
   -mwindows
 ```
 
-**BUILD_MACROS**:  
+**BUILD_MACROS**:
 Macros to include in the build
 
 ```makefile
@@ -248,7 +259,7 @@ BUILD_MACROS= \
   _DEBUG
 ```
 
-**BUILD_DEPENDENCIES**:  
+**BUILD_DEPENDENCIES**:
 Dependency .dll/.so files to include in the bin/(build) folders
 
 ```makefile
@@ -258,7 +269,7 @@ BUILD_DEPENDENCIES= \
 
 ## MacOS-specific:
 
-**MACOS_FRAMEWORK_PATHS**:  
+**MACOS_FRAMEWORK_PATHS**:
 Framework paths, other than /System/Library/Frameworks
 
 ```makefile
@@ -280,7 +291,7 @@ MACOS_FRAMEWORKS= \
 
 I thought it was important to include a build task that creates a final "build" folder and copies the files in the bin/Release folder, any dependency .dlls, and any other directories into it. It's accessed via (**Ctrl+Shift+B** > **Build: Production**) and uses a couple special environment variables:
 
-**PRODUCTION_DEPENDENCIES**:  
+**PRODUCTION_DEPENDENCIES**:
 Files & folders to copy into the "build" folder upon using the "Build: Production" task. In MacOS, this is anything going into the the app bundle's "Resources" folder.
 
 ```makefile
@@ -297,7 +308,7 @@ PRODUCTION_DEPENDENCIES= \
   content
 ```
 
-**PRODUCTION_EXCLUDE**:  
+**PRODUCTION_EXCLUDE**:
 Files & extensions to exclude from the production build.
 
 ```makefile
@@ -308,7 +319,7 @@ PRODUCTION_EXCLUDE= \
   Thumbs.db
 ```
 
-**PRODUCTION_FOLDER**:  
+**PRODUCTION_FOLDER**:
 The folder the production build will go into. This can be an absolute path or a relative path. Defaults to "build" if not defined.
 
 ```makefile
@@ -323,49 +334,49 @@ Option 1: The "Build: Production" script creates a bundle & a basic .dmg image, 
 
 Option 2: Use Xcode to bundle your final build! It's as simple as that. Follow the rest of the directions outlined [HERE](https://www.sfml-dev.org/tutorials/2.5/start-osx.php), copy your code-base in the Xcode project folder, and go from there.
 
-**PRODUCTION_MACOS_ICON**:  
+**PRODUCTION_MACOS_ICON**:
 The app bundle's icon (.png, no extension)
 
 ```makefile
 PRODUCTION_MACOS_ICON := sfml
 ```
 
-**PRODUCTION_MACOS_BUNDLE_DEVELOPER**:  
+**PRODUCTION_MACOS_BUNDLE_DEVELOPER**:
 Your name, company, etc.
 
 ```makefile
 PRODUCTION_MACOS_BUNDLE_DEVELOPER := developer
 ```
 
-**PRODUCTION_MACOS_BUNDLE_DISPLAY_NAME**:  
+**PRODUCTION_MACOS_BUNDLE_DISPLAY_NAME**:
 App's display name (used everywhere)
 
 ```makefile
 PRODUCTION_MACOS_BUNDLE_DISPLAY_NAME := SFML Boilerplate
 ```
 
-**PRODUCTION_MACOS_BUNDLE_NAME**:  
+**PRODUCTION_MACOS_BUNDLE_NAME**:
 Internal app name (used somewhere by MacOS... ???)
 
 ```makefile
 PRODUCTION_MACOS_BUNDLE_NAME := SFML Boilerplate
 ```
 
-**PRODUCTION_MACOS_MAKE_DMG**:  
+**PRODUCTION_MACOS_MAKE_DMG**:
 set to "true" to make a .dmg image
 
 ```makefile
 PRODUCTION_MACOS_MAKE_DMG := true
 ```
 
-**PRODUCTION_MACOS_BACKGROUND**:  
+**PRODUCTION_MACOS_BACKGROUND**:
 Background image file (.png) to use in the .dmg image. A "...@2x.png" file is also expected
 
 ```makefile
 PRODUCTION_MACOS_BACKGROUND := dmg-background
 ```
 
-**PRODUCTION_MACOS_DYLIBS**:  
+**PRODUCTION_MACOS_DYLIBS**:
 Dynamically linked libraries to include in the final build.
 
 ```makefile
@@ -377,7 +388,7 @@ PRODUCTION_MACOS_DYLIBS := \
 	/usr/local/lib/libsfml-system.2.5
 ```
 
-**PRODUCTION_MACOS_FRAMEWORKS**:  
+**PRODUCTION_MACOS_FRAMEWORKS**:
 Any frameworks to add to the app bundle's "Frameworks" folder. (Path, no extension)
 
 ```makefile
@@ -391,21 +402,21 @@ PRODUCTION_MACOS_FRAMEWORKS :=
 
 A default Ubuntu app build is included, but beyond that, you're on your own. The App's configuration is set in env/linux/exec.desktop. Similar to MacOS build these are the linux specific variables:
 
-**PRODUCTION_LINUX_ICON**:  
+**PRODUCTION_LINUX_ICON**:
 The app icon (.png, no extension)
 
 ```makefile
 PRODUCTION_LINUX_ICON := sfml
 ```
 
-**PRODUCTION_LINUX_APP_NAME**:  
+**PRODUCTION_LINUX_APP_NAME**:
 The app's name
 
 ```makefile
 PRODUCTION_LINUX_APP_NAME := SFML Boilerplate
 ```
 
-**PRODUCTION_LINUX_APP_COMMENT**:  
+**PRODUCTION_LINUX_APP_COMMENT**:
 The app's description
 
 ```makefile
