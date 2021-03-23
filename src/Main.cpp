@@ -11,6 +11,10 @@ Vector2f toCoord(char, char);
 void move(string);
 void loadPosition();
 
+// Vector2f offset(28,28);
+
+string position = "";
+
 //You can't use size or SIZE because these are declared else where in this program
 int sizes = 56;
 
@@ -65,9 +69,13 @@ void move(string str)
 		}
 	}
 
-}
+	// Castling  THIS IS NOT COMPLETED
+	// if(str == "e1g1") if (position.find("e1") == 1) move("h1f1");
+	// if (str=="e8g8") if (position.find("e8")==-1) move("h8f8");
+	// if (str=="e1c1") if (position.find("e1")==-1) move("a1d1");
+	// if (str=="e8c8") if (position.find("e8")==-1) move("a8d8");
 
-string position = "";
+}
 
 void loadPosition()
 {
@@ -102,11 +110,16 @@ int main()
 
 	RenderWindow window(VideoMode(454, 455), "Chess Simulator");
 
+	wchar_t filename[] = L"stockfish_13_win_x64_bmi2.exe"; //notice the L infront of the string, this makes it into a wchar_t value
+
+	//Connecting to the stockfish
+	ConnectToEngine(filename);
+
 	Texture t1, t2;
 	t1.loadFromFile("images/figures.png");
 	t2.loadFromFile("images/board0.png");
 
-	Sprite s(t1);
+	// Sprite s(t1);
 	Sprite sBoard(t2);
 
 	for(int i = 0; i < 32; i++) f[i].setTexture(t1);
