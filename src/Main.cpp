@@ -1,11 +1,17 @@
 #include "Platform/Platform.hpp"
 #include <time.h>
+#include <string.h>
 
 using namespace sf;
+using namespace std;
 
+string toChessNote(Vector2f);
+Vector2f toCoord(char, char);
+void move(string);
 void loadPosition();
 
-int size = 56;
+//You can't use size or SIZE because these are declared else where in this program
+int sizes = 56;
 
 Sprite f[32]; //figures
 
@@ -22,6 +28,46 @@ int board[8][8] =
 	   1, 2, 3, 4, 5, 3, 2, 1};
 
 
+string toChessNote(Vector2f p)
+{
+	string s = "";
+	s += char(p.x / sizes + 97);
+	s += char(7 - p.y / sizes + 49);
+	return s;
+}
+
+Vector2f toCoord(char a, char b)
+{
+	int x = int(a) - 97;
+	int y = 7 - int(b) + 49;
+	return Vector2f(x * sizes, y * sizes);
+}
+
+void move(string str)
+{
+	Vector2f oldPos = toCoord(str[0], str[1]);
+	Vector2f newPos = toCoord(str[2], str[3]);
+
+	for(int i = 0; i < 32; i++)
+	{
+		if(f[i].getPosition() == newPos)
+		{
+			f[i].setPosition(-100,-100);
+		}
+	}
+
+	for(int i = 0; i < 32; i++)
+	{
+		if(f[i].getPosition() == oldPos)
+		{
+			f[i].setPosition(newPos);
+		}
+	}
+
+}
+
+// string position = "";
+
 void loadPosition()
 {
 	int k = 0;
@@ -35,11 +81,16 @@ void loadPosition()
 
 			int x = abs(n) - 1;
 			int y = n > 0 ? 1:0;
-			f[k].setTextureRect(IntRect(size * x, size * y, size, size));
-			f[k].setPosition(size * j, size * i);
+			f[k].setTextureRect(IntRect(sizes * x, sizes * y, sizes, sizes));
+			f[k].setPosition(sizes * j, sizes * i);
 			k++;
 		}
 	}
+
+	// for(int i = 0; i < position.length(); i += 5)
+	// {
+
+	// }
 }
 
 
@@ -63,6 +114,8 @@ int main()
 
 	bool isMove = false;
 	float dx = 0, dy = 0;
+	Vector2f oldPos, newPos;
+	string str;
 	int n = 0;
 
 	while (window.isOpen())
@@ -88,6 +141,7 @@ int main()
 							n = i;
 							dx = pos.x - f[i].getPosition().x;
 							dy = pos.y - f[i].getPosition().y;
+							oldPos =     f[i].getPosition();
 						}
 					}
 				}
@@ -97,8 +151,11 @@ int main()
 				if (e.mouseButton.button == Mouse::Left)
 				{
 					isMove = false;
-					Vector2f p = f[n].getPosition() + Vector2f(size/2, size/2);
-					Vector2f newPos = Vector2f(size * int(p.x/size), size * int(p.y/size));
+					Vector2f p = f[n].getPosition() + Vector2f(sizes/2, sizes/2);
+					newPos = Vector2f(sizes * int(p.x/sizes), sizes * int(p.y/sizes));
+					str = toChessNote(oldPos) + toChessNote(newPos);
+					move(str);
+					cout << str << endl;
 					f[n].setPosition(newPos);
 				}
 			}
@@ -125,7 +182,7 @@ int main()
 	// window.create(sf::VideoMode(200.0f * screenScalingFactor, 200.0f * screenScalingFactor), "SFML works!");
 	// platform.setIcon(window.getSystemHandle());
 
-	// sf::CircleShape shape(window.getSize().x / 2);
+	// sf::CircleShape shape(window.getsizes().x / 2);
 	// shape.setFillColor(sf::Color::White);
 
 	// sf::Texture shapeTexture;
