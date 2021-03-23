@@ -1,6 +1,7 @@
 #include "Platform/Platform.hpp"
+#include "Connector.hpp"
 #include <time.h>
-#include <string.h>
+#include <string>
 
 using namespace sf;
 using namespace std;
@@ -171,6 +172,44 @@ int main()
 				}
 			}
 		}
+
+
+		////computer move////
+		if(Keyboard::isKeyPressed(Keyboard::Space))
+		{
+			str = getNextMove(position);
+
+			oldPos = toCoord(str[0], str[1]);
+			newPos = toCoord(str[2], str[3]);
+
+			for(int i = 0; i < 32; i++)
+			{
+				if(f[i].getPosition() == oldPos)
+				{
+					n = i;
+				}
+			}
+
+			////animation////
+			for(int k = 0; k < 50; k++)
+			{
+				Vector2f p = newPos - oldPos;
+				f[n].move(p.x / 50, p.y / 50);
+				window.draw(sBoard);
+				for(int i = 0; i < 32; i++)
+				{
+					window.draw(f[i]);
+					window.draw(f[n]);
+				}
+				window.display();
+			}
+
+			move(str);
+			position += str + " ";
+			f[n].setPosition(newPos);
+
+		}
+
 
 		if (isMove)
 			f[n].setPosition(pos.x - dx, pos.y - dy);
