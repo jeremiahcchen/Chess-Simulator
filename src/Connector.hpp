@@ -47,6 +47,7 @@ std::string getNextMove(std::string position)
 	Sleep(500);
 
 	PeekNamedPipe(pipout_r, buffer, sizeof(buffer), &read, &avaliable, NULL);
+
 	do
 	{
 		ZeroMemory(buffer, sizeof(buffer));

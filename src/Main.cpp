@@ -53,6 +53,8 @@ void move(string str)
 	Vector2f oldPos = toCoord(str[0], str[1]);
 	Vector2f newPos = toCoord(str[2], str[3]);
 
+
+	//Captures Function
 	for(int i = 0; i < 32; i++)
 	{
 		if(f[i].getPosition() == newPos)
@@ -61,6 +63,7 @@ void move(string str)
 		}
 	}
 
+	//Movement Function
 	for(int i = 0; i < 32; i++)
 	{
 		if(f[i].getPosition() == oldPos)
@@ -103,11 +106,11 @@ void loadPosition()
 }
 
 
-
 int main()
 {
 	util::Platform platform;
 
+	//Make sure the png of the board is around the same size as the VideoMode()
 	RenderWindow window(VideoMode(454, 455), "Chess Simulator");
 
 	wchar_t filename[] = L"stockfish_13_win_x64_bmi2.exe"; //notice the L infront of the string, this makes it into a wchar_t value
@@ -119,7 +122,6 @@ int main()
 	t1.loadFromFile("images/figures.png");
 	t2.loadFromFile("images/board0.png");
 
-	// Sprite s(t1);
 	Sprite sBoard(t2);
 
 	for(int i = 0; i < 32; i++) f[i].setTexture(t1);
@@ -147,8 +149,11 @@ int main()
 			{
 				if(e.key.code == Keyboard::Backspace)
 				{
-					position.erase(position.length() - 6, 5);
-					loadPosition();
+					if(position.length() > 6)
+					{
+						position.erase(position.length() - 6, 5);
+						loadPosition();
+					}
 				}
 			}
 
@@ -238,34 +243,7 @@ int main()
 		window.display();
 	}
 
-	// sf::RenderWindow window;
-	// // in Windows at least, this must be called before creating the window
-	// float screenScalingFactor = platform.getScreenScalingFactor(window.getSystemHandle());
-	// // Use the screenScalingFactor
-	// window.create(sf::VideoMode(200.0f * screenScalingFactor, 200.0f * screenScalingFactor), "SFML works!");
-	// platform.setIcon(window.getSystemHandle());
-
-	// sf::CircleShape shape(window.getsizes().x / 2);
-	// shape.setFillColor(sf::Color::White);
-
-	// sf::Texture shapeTexture;
-	// shapeTexture.loadFromFile("content/sfml.png");
-	// shape.setTexture(&shapeTexture);
-
-	// sf::Event event;
-
-	// while (window.isOpen())
-	// {
-	// 	while (window.pollEvent(event))
-	// 	{
-	// 		if (event.type == sf::Event::Closed)
-	// 			window.close();
-	// 	}
-
-	// 	window.clear();
-	// 	window.draw(shape);
-	// 	window.display();
-	// }
+	CloseConnection();
 
 	return 0;
 }
