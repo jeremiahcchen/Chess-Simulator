@@ -16,7 +16,7 @@ To run the Chess-Simulator:
 2. Select `Build & Run: Debug` w/ movesets or `Build & Run: Release` w/o movesets.
 3. Play Chess how you normally would play.
 4. `Backspace` to undo a move.
-5. Stockfish implementation is not finish***
+5. Stockfish implementation is not finished***
 
 ---
 
