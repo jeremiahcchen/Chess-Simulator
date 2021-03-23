@@ -66,7 +66,7 @@ void move(string str)
 
 }
 
-// string position = "";
+string position = "";
 
 void loadPosition()
 {
@@ -87,10 +87,10 @@ void loadPosition()
 		}
 	}
 
-	// for(int i = 0; i < position.length(); i += 5)
-	// {
-
-	// }
+	for(unsigned int i = 0; i < position.length(); i += 5)
+	{
+		move(position.substr(i, 4));
+	}
 }
 
 
@@ -128,6 +128,16 @@ int main()
 			if (e.type == Event::Closed)
 				window.close();
 
+			/////move back or undo move/////
+			if(e.type == Event::KeyPressed)
+			{
+				if(e.key.code == Keyboard::Backspace)
+				{
+					position.erase(position.length() - 6, 5);
+					loadPosition();
+				}
+			}
+
 			/////drag and drop/////
 			if (e.type == Event::MouseButtonPressed)
 			{
@@ -155,6 +165,7 @@ int main()
 					newPos = Vector2f(sizes * int(p.x/sizes), sizes * int(p.y/sizes));
 					str = toChessNote(oldPos) + toChessNote(newPos);
 					move(str);
+					position += str + " ";
 					cout << str << endl;
 					f[n].setPosition(newPos);
 				}
