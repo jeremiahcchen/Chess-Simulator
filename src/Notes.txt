@@ -1,0 +1,19 @@
+Movement and Deletion
+
+How each move is stored is through a string concatination.
+One move is a string length of 5 "e3e4 ". NOTE: There is a space after the moveset.
+
+
+Future Implementations:
+	- Castling
+	- Restrictions on move pieces that aren't allowed to move a certain way
+	- Maybe Change the size of the board
+	- Board Flips when its the other players turn?
+
+
+Bugs:
+	- Getting the computer to move based on stockfish is not working
+	- When I press "SpaceBar" the Space key is inputted 5 times, idkw
+	- After making a move, if you click anywhere that isnt moving a new pieces
+	  the value will save the same move you recently just moved.
+	  Need to make sure it doesn't save into the string if it's not a real move.
