@@ -50,6 +50,9 @@ Vector2f toCoord(char a, char b)
 
 void move(string str)
 {
+	// str = "e2e4"
+	// oldPos = "e2"
+	// newPos = "e4"
 	Vector2f oldPos = toCoord(str[0], str[1]);
 	Vector2f newPos = toCoord(str[2], str[3]);
 
@@ -99,6 +102,7 @@ void loadPosition()
 		}
 	}
 
+	// Loads the board according to the string position holds
 	for(unsigned int i = 0; i < position.length(); i += 5)
 	{
 		move(position.substr(i, 4));
@@ -132,6 +136,8 @@ int main()
 	float dx = 0, dy = 0;
 	Vector2f oldPos, newPos;
 	string str;
+
+	//Selected Piece
 	int n = 0;
 
 	while (window.isOpen())
@@ -139,6 +145,7 @@ int main()
 		Vector2i pos = Mouse::getPosition(window);
 
 		Event e;
+
 		while (window.pollEvent(e))
 		{
 			if (e.type == Event::Closed)
@@ -149,9 +156,15 @@ int main()
 			{
 				if(e.key.code == Keyboard::Backspace)
 				{
+					cout << "positions: " << position << endl;
+					cout << "Pos.Length: " << position.length() << endl;
 					if(position.length() > 6)
 					{
 						position.erase(position.length() - 6, 5);
+						loadPosition();
+					}
+					else{
+						position.clear();
 						loadPosition();
 					}
 				}
@@ -195,7 +208,12 @@ int main()
 		////computer move////
 		if(Keyboard::isKeyPressed(Keyboard::Space))
 		{
-			str = getNextMove(position);
+			cout << "Space" << endl;
+
+			/// Stockfish moves ///
+			// str = getNextMove(position);
+
+			str = "d7d5";
 
 			oldPos = toCoord(str[0], str[1]);
 			newPos = toCoord(str[2], str[3]);
@@ -224,6 +242,7 @@ int main()
 
 			move(str);
 			position += str + " ";
+			cout << "Position: " << position << endl;
 			f[n].setPosition(newPos);
 
 		}
