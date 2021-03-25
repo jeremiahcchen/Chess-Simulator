@@ -1,4 +1,3 @@
-#include "Platform/Platform.hpp"
 #include "Connector.hpp"
 #include <time.h>
 #include <string>
@@ -14,6 +13,7 @@ void loadPosition();
 string position = "";
 
 //You can't use size or SIZE because these are declared else where in this program
+//Program will say ambigious variable
 int sizes = 56;
 
 Sprite f[32]; //figures
@@ -100,7 +100,7 @@ void loadPosition()
 		}
 	}
 
-	// Loads the board according to the string position holds
+	// Loads the board according to the string = position
 	for(unsigned int i = 0; i < position.length(); i += 5)
 	{
 		move(position.substr(i, 4));
@@ -110,8 +110,6 @@ void loadPosition()
 
 int main()
 {
-	util::Platform platform;
-
 	//Make sure the png of the board is around the same size as the VideoMode()
 	RenderWindow window(VideoMode(454, 455), "Chess Simulator");
 
@@ -194,15 +192,17 @@ int main()
 				if(e.mouseButton.button == Mouse::Left)
 				{
 					if(isSelected){
-						isMove = false;
 						isSelected = false;
-						Vector2f p = f[n].getPosition() + Vector2f(sizes/2, sizes/2);
-						newPos = Vector2f(sizes * int(p.x/sizes), sizes * int(p.y/sizes));
-						str = toChessNote(oldPos) + toChessNote(newPos);
-						move(str);
-						position += str + " ";
-						cout << str << endl;
-						f[n].setPosition(newPos);
+						isMove = false;
+						if(oldPos != newPos){
+							Vector2f p = f[n].getPosition() + Vector2f(sizes/2, sizes/2);
+							newPos = Vector2f(sizes * int(p.x/sizes), sizes * int(p.y/sizes));
+							str = toChessNote(oldPos) + toChessNote(newPos);
+							move(str);
+							position += str + " ";
+							cout << str << endl;
+							f[n].setPosition(newPos);
+						}
 					}
 				}
 			}
