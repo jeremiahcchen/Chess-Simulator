@@ -11,8 +11,6 @@ Vector2f toCoord(char, char);
 void move(string);
 void loadPosition();
 
-// Vector2f offset(28,28);
-
 string position = "";
 
 //You can't use size or SIZE because these are declared else where in this program
@@ -133,6 +131,7 @@ int main()
 	loadPosition();
 
 	bool isMove = false;
+	bool isSelected = false;
 	float dx = 0, dy = 0;
 	Vector2f oldPos, newPos;
 	string str;
@@ -140,15 +139,15 @@ int main()
 	//Selected Piece
 	int n = 0;
 
-	while (window.isOpen())
+	while(window.isOpen())
 	{
 		Vector2i pos = Mouse::getPosition(window);
 
 		Event e;
 
-		while (window.pollEvent(e))
+		while(window.pollEvent(e))
 		{
-			if (e.type == Event::Closed)
+			if(e.type == Event::Closed)
 				window.close();
 
 			/////move back or undo move/////
@@ -163,7 +162,8 @@ int main()
 						position.erase(position.length() - 6, 5);
 						loadPosition();
 					}
-					else{
+					else
+					{
 						position.clear();
 						loadPosition();
 					}
@@ -171,15 +171,16 @@ int main()
 			}
 
 			/////drag and drop/////
-			if (e.type == Event::MouseButtonPressed)
+			if(e.type == Event::MouseButtonPressed)
 			{
-				if (e.mouseButton.button == Mouse::Left)
+				if(e.mouseButton.button == Mouse::Left)
 				{
 					for(int i = 0; i < 32; i++)
 					{
-						if (f[i].getGlobalBounds().contains(pos.x, pos.y))
+						if(f[i].getGlobalBounds().contains(pos.x, pos.y))
 						{
 							isMove = true;
+							isSelected = true;
 							n = i;
 							dx = pos.x - f[i].getPosition().x;
 							dy = pos.y - f[i].getPosition().y;
@@ -188,18 +189,21 @@ int main()
 					}
 				}
 			}
-			if (e.type == Event::MouseButtonReleased)
+			if(e.type == Event::MouseButtonReleased)
 			{
-				if (e.mouseButton.button == Mouse::Left)
+				if(e.mouseButton.button == Mouse::Left)
 				{
-					isMove = false;
-					Vector2f p = f[n].getPosition() + Vector2f(sizes/2, sizes/2);
-					newPos = Vector2f(sizes * int(p.x/sizes), sizes * int(p.y/sizes));
-					str = toChessNote(oldPos) + toChessNote(newPos);
-					move(str);
-					position += str + " ";
-					cout << str << endl;
-					f[n].setPosition(newPos);
+					if(isSelected){
+						isMove = false;
+						isSelected = false;
+						Vector2f p = f[n].getPosition() + Vector2f(sizes/2, sizes/2);
+						newPos = Vector2f(sizes * int(p.x/sizes), sizes * int(p.y/sizes));
+						str = toChessNote(oldPos) + toChessNote(newPos);
+						move(str);
+						position += str + " ";
+						cout << str << endl;
+						f[n].setPosition(newPos);
+					}
 				}
 			}
 		}
@@ -248,13 +252,15 @@ int main()
 		}
 
 
-		if (isMove)
+		if(isMove)
+		{
 			f[n].setPosition(pos.x - dx, pos.y - dy);
+		}
 
 		///////draw////////
 		window.clear();
 		window.draw(sBoard);
-		for (int i = 0; i < 32; i++)
+		for(int i = 0; i < 32; i++)
 		{
 			window.draw(f[i]);
 		}
