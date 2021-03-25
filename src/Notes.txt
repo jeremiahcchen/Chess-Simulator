@@ -2,6 +2,8 @@ Movement and Deletion
 
 How each move is stored is through a string concatination.
 One move is a string length of 5 "e3e4 ". NOTE: There is a space after the moveset.
+When undoing, the string erases the length in increments of 5,
+then it loads the board with what is left in the string concatination.
 
 
 Future Implementations:
